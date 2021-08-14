@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Matriculacion.Models.Estudiante>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Matricula)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cedula)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Correo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contrasena)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContrasenaC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Carrera.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cuatrimestre.Descripcion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Matricula)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Apellido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cedula)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Correo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Telefono)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Direccion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contrasena)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContrasenaC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Carrera.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cuatrimestre.Descripcion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.EstudianteId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.EstudianteId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.EstudianteId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="92f589cadb07435ea37cff96518c3c52" Name="Diagram1">
+        <EntityTypeShape EntityType="MatriculacionModel.Carrera" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatriculacionModel.Cuatrimestre" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatriculacionModel.Cursando" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatriculacionModel.Imparte" Width="1.5" PointX="5.25" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatriculacionModel.Materia" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatriculacionModel.Usuario" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="MatriculacionModel.FK__Materia__Carrera__37A5467C" ManuallyRouted="false" />
+        <AssociationConnector Association="MatriculacionModel.FK__Cursando__Materi__36B12243" ManuallyRouted="false" />
+        <AssociationConnector Association="MatriculacionModel.FK__Imparte__Materia__34C8D9D1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MatriculacionModel.Estudiante" Width="1.5" PointX="3" PointY="1.25" />
+        <EntityTypeShape EntityType="MatriculacionModel.Profesor" Width="1.5" PointX="3" PointY="12.25" />
+        <AssociationConnector Association="MatriculacionModel.FK__Estudiant__Carre__32E0915F" />
+        <AssociationConnector Association="MatriculacionModel.FK__Estudiant__Cuatr__31EC6D26" />
+        <AssociationConnector Association="MatriculacionModel.FK__Cursando__Estudi__35BCFE0A" />
+        <AssociationConnector Association="MatriculacionModel.FK__Imparte__Profeso__33D4B598" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

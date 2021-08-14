@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Matriculacion.Models.Materia>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Codigo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Creditos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Carrera.Descripcion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Codigo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Creditos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Carrera.Descripcion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MateriaId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MateriaId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MateriaId })
+        </td>
+    </tr>
+}
+
+</table>

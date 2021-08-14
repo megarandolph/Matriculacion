@@ -1,0 +1,553 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MatriculacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Carrera">
+          <Key>
+            <PropertyRef Name="CarreraId" />
+          </Key>
+          <Property Name="CarreraId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Cuatrimestre">
+          <Key>
+            <PropertyRef Name="CuatrimestreId" />
+          </Key>
+          <Property Name="CuatrimestreId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="50" />
+          <Property Name="FechaInicio" Type="date" />
+          <Property Name="FechaFin" Type="date" />
+        </EntityType>
+        <EntityType Name="Cursando">
+          <Key>
+            <PropertyRef Name="CursandoId" />
+          </Key>
+          <Property Name="CursandoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EstudianteId" Type="int" />
+          <Property Name="MateriaId" Type="int" />
+        </EntityType>
+        <EntityType Name="Estudiante">
+          <Key>
+            <PropertyRef Name="EstudianteId" />
+          </Key>
+          <Property Name="EstudianteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CuatrimestreId" Type="int" />
+          <Property Name="CarreraId" Type="int" />
+          <Property Name="Matricula" Type="nvarchar" MaxLength="50" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="Apellido" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cedula" Type="nvarchar" MaxLength="13" />
+          <Property Name="Correo" Type="nvarchar" MaxLength="100" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="50" />
+          <Property Name="Direccion" Type="nvarchar" MaxLength="200" />
+          <Property Name="Contrasena" Type="nvarchar" MaxLength="200" />
+          <Property Name="ContrasenaC" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Imparte">
+          <Key>
+            <PropertyRef Name="ImparteId" />
+          </Key>
+          <Property Name="ImparteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProfesorId" Type="int" />
+          <Property Name="MateriaId" Type="int" />
+        </EntityType>
+        <EntityType Name="Materia">
+          <Key>
+            <PropertyRef Name="MateriaId" />
+          </Key>
+          <Property Name="MateriaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarreraId" Type="int" />
+          <Property Name="Codigo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="50" />
+          <Property Name="Creditos" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Profesor">
+          <Key>
+            <PropertyRef Name="ProfesorId" />
+          </Key>
+          <Property Name="ProfesorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="Apellido" Type="nvarchar" MaxLength="50" />
+          <Property Name="Correo" Type="nvarchar" MaxLength="100" />
+          <Property Name="Cedula" Type="nvarchar" MaxLength="13" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="50" />
+          <Property Name="Direccion" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="UsuarioId" />
+          </Key>
+          <Property Name="UsuarioId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="Apellido" Type="nvarchar" MaxLength="50" />
+          <Property Name="Correo" Type="nvarchar" MaxLength="100" />
+          <Property Name="Contrasena" Type="nvarchar" MaxLength="200" />
+          <Property Name="ContrasenaC" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK__Cursando__Estudi__35BCFE0A">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="0..1" />
+          <End Role="Cursando" Type="Self.Cursando" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="EstudianteId" />
+            </Principal>
+            <Dependent Role="Cursando">
+              <PropertyRef Name="EstudianteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cursando__Materi__36B12243">
+          <End Role="Materia" Type="Self.Materia" Multiplicity="0..1" />
+          <End Role="Cursando" Type="Self.Cursando" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materia">
+              <PropertyRef Name="MateriaId" />
+            </Principal>
+            <Dependent Role="Cursando">
+              <PropertyRef Name="MateriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Estudiant__Carre__32E0915F">
+          <End Role="Carrera" Type="Self.Carrera" Multiplicity="0..1" />
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Carrera">
+              <PropertyRef Name="CarreraId" />
+            </Principal>
+            <Dependent Role="Estudiante">
+              <PropertyRef Name="CarreraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Estudiant__Cuatr__31EC6D26">
+          <End Role="Cuatrimestre" Type="Self.Cuatrimestre" Multiplicity="0..1" />
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cuatrimestre">
+              <PropertyRef Name="CuatrimestreId" />
+            </Principal>
+            <Dependent Role="Estudiante">
+              <PropertyRef Name="CuatrimestreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Imparte__Materia__34C8D9D1">
+          <End Role="Materia" Type="Self.Materia" Multiplicity="0..1" />
+          <End Role="Imparte" Type="Self.Imparte" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materia">
+              <PropertyRef Name="MateriaId" />
+            </Principal>
+            <Dependent Role="Imparte">
+              <PropertyRef Name="MateriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Imparte__Profeso__33D4B598">
+          <End Role="Profesor" Type="Self.Profesor" Multiplicity="0..1" />
+          <End Role="Imparte" Type="Self.Imparte" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profesor">
+              <PropertyRef Name="ProfesorId" />
+            </Principal>
+            <Dependent Role="Imparte">
+              <PropertyRef Name="ProfesorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Materia__Carrera__37A5467C">
+          <End Role="Carrera" Type="Self.Carrera" Multiplicity="0..1" />
+          <End Role="Materia" Type="Self.Materia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Carrera">
+              <PropertyRef Name="CarreraId" />
+            </Principal>
+            <Dependent Role="Materia">
+              <PropertyRef Name="CarreraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MatriculacionModelStoreContainer">
+          <EntitySet Name="Carrera" EntityType="Self.Carrera" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cuatrimestre" EntityType="Self.Cuatrimestre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cursando" EntityType="Self.Cursando" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estudiante" EntityType="Self.Estudiante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Imparte" EntityType="Self.Imparte" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Materia" EntityType="Self.Materia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Profesor" EntityType="Self.Profesor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Cursando__Estudi__35BCFE0A" Association="Self.FK__Cursando__Estudi__35BCFE0A">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="Cursando" EntitySet="Cursando" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cursando__Materi__36B12243" Association="Self.FK__Cursando__Materi__36B12243">
+            <End Role="Materia" EntitySet="Materia" />
+            <End Role="Cursando" EntitySet="Cursando" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Estudiant__Carre__32E0915F" Association="Self.FK__Estudiant__Carre__32E0915F">
+            <End Role="Carrera" EntitySet="Carrera" />
+            <End Role="Estudiante" EntitySet="Estudiante" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Estudiant__Cuatr__31EC6D26" Association="Self.FK__Estudiant__Cuatr__31EC6D26">
+            <End Role="Cuatrimestre" EntitySet="Cuatrimestre" />
+            <End Role="Estudiante" EntitySet="Estudiante" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Imparte__Materia__34C8D9D1" Association="Self.FK__Imparte__Materia__34C8D9D1">
+            <End Role="Materia" EntitySet="Materia" />
+            <End Role="Imparte" EntitySet="Imparte" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Imparte__Profeso__33D4B598" Association="Self.FK__Imparte__Profeso__33D4B598">
+            <End Role="Profesor" EntitySet="Profesor" />
+            <End Role="Imparte" EntitySet="Imparte" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Materia__Carrera__37A5467C" Association="Self.FK__Materia__Carrera__37A5467C">
+            <End Role="Carrera" EntitySet="Carrera" />
+            <End Role="Materia" EntitySet="Materia" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MatriculacionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Carrera">
+          <Key>
+            <PropertyRef Name="CarreraId" />
+          </Key>
+          <Property Name="CarreraId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Materias" Relationship="Self.FK__Materia__Carrera__37A5467C" FromRole="Carrera" ToRole="Materia" />
+          <NavigationProperty Name="Estudiantes" Relationship="MatriculacionModel.FK__Estudiant__Carre__32E0915F" FromRole="Carrera" ToRole="Estudiante" />
+        </EntityType>
+        <EntityType Name="Cuatrimestre">
+          <Key>
+            <PropertyRef Name="CuatrimestreId" />
+          </Key>
+          <Property Name="CuatrimestreId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FechaInicio" Type="DateTime" Precision="0" />
+          <Property Name="FechaFin" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Estudiantes" Relationship="MatriculacionModel.FK__Estudiant__Cuatr__31EC6D26" FromRole="Cuatrimestre" ToRole="Estudiante" />
+        </EntityType>
+        <EntityType Name="Cursando">
+          <Key>
+            <PropertyRef Name="CursandoId" />
+          </Key>
+          <Property Name="CursandoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EstudianteId" Type="Int32" />
+          <Property Name="MateriaId" Type="Int32" />
+          <NavigationProperty Name="Materia" Relationship="Self.FK__Cursando__Materi__36B12243" FromRole="Cursando" ToRole="Materia" />
+          <NavigationProperty Name="Estudiante" Relationship="MatriculacionModel.FK__Cursando__Estudi__35BCFE0A" FromRole="Cursando" ToRole="Estudiante" />
+        </EntityType>
+        <EntityType Name="Imparte">
+          <Key>
+            <PropertyRef Name="ImparteId" />
+          </Key>
+          <Property Name="ImparteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProfesorId" Type="Int32" />
+          <Property Name="MateriaId" Type="Int32" />
+          <NavigationProperty Name="Materia" Relationship="Self.FK__Imparte__Materia__34C8D9D1" FromRole="Imparte" ToRole="Materia" />
+          <NavigationProperty Name="Profesor" Relationship="MatriculacionModel.FK__Imparte__Profeso__33D4B598" FromRole="Imparte" ToRole="Profesor" />
+        </EntityType>
+        <EntityType Name="Materia">
+          <Key>
+            <PropertyRef Name="MateriaId" />
+          </Key>
+          <Property Name="MateriaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarreraId" Type="Int32" />
+          <Property Name="Codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Creditos" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Carrera" Relationship="Self.FK__Materia__Carrera__37A5467C" FromRole="Materia" ToRole="Carrera" />
+          <NavigationProperty Name="Cursandoes" Relationship="Self.FK__Cursando__Materi__36B12243" FromRole="Materia" ToRole="Cursando" />
+          <NavigationProperty Name="Impartes" Relationship="Self.FK__Imparte__Materia__34C8D9D1" FromRole="Materia" ToRole="Imparte" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="UsuarioId" />
+          </Key>
+          <Property Name="UsuarioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Contrasena" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ContrasenaC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK__Materia__Carrera__37A5467C">
+          <End Role="Carrera" Type="Self.Carrera" Multiplicity="0..1" />
+          <End Role="Materia" Type="Self.Materia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Carrera">
+              <PropertyRef Name="CarreraId" />
+            </Principal>
+            <Dependent Role="Materia">
+              <PropertyRef Name="CarreraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cursando__Materi__36B12243">
+          <End Role="Materia" Type="Self.Materia" Multiplicity="0..1" />
+          <End Role="Cursando" Type="Self.Cursando" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materia">
+              <PropertyRef Name="MateriaId" />
+            </Principal>
+            <Dependent Role="Cursando">
+              <PropertyRef Name="MateriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Imparte__Materia__34C8D9D1">
+          <End Role="Materia" Type="Self.Materia" Multiplicity="0..1" />
+          <End Role="Imparte" Type="Self.Imparte" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materia">
+              <PropertyRef Name="MateriaId" />
+            </Principal>
+            <Dependent Role="Imparte">
+              <PropertyRef Name="MateriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MatriculacionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Carreras" EntityType="Self.Carrera" />
+          <EntitySet Name="Cuatrimestres" EntityType="Self.Cuatrimestre" />
+          <EntitySet Name="Cursandoes" EntityType="Self.Cursando" />
+          <EntitySet Name="Impartes" EntityType="Self.Imparte" />
+          <EntitySet Name="Materias" EntityType="Self.Materia" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK__Materia__Carrera__37A5467C" Association="Self.FK__Materia__Carrera__37A5467C">
+            <End Role="Carrera" EntitySet="Carreras" />
+            <End Role="Materia" EntitySet="Materias" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cursando__Materi__36B12243" Association="Self.FK__Cursando__Materi__36B12243">
+            <End Role="Materia" EntitySet="Materias" />
+            <End Role="Cursando" EntitySet="Cursandoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Imparte__Materia__34C8D9D1" Association="Self.FK__Imparte__Materia__34C8D9D1">
+            <End Role="Materia" EntitySet="Materias" />
+            <End Role="Imparte" EntitySet="Impartes" />
+          </AssociationSet>
+          <EntitySet Name="Estudiantes" EntityType="MatriculacionModel.Estudiante" />
+          <EntitySet Name="Profesors" EntityType="MatriculacionModel.Profesor" />
+          <AssociationSet Name="FK__Estudiant__Carre__32E0915F" Association="MatriculacionModel.FK__Estudiant__Carre__32E0915F">
+            <End Role="Carrera" EntitySet="Carreras" />
+            <End Role="Estudiante" EntitySet="Estudiantes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Estudiant__Cuatr__31EC6D26" Association="MatriculacionModel.FK__Estudiant__Cuatr__31EC6D26">
+            <End Role="Cuatrimestre" EntitySet="Cuatrimestres" />
+            <End Role="Estudiante" EntitySet="Estudiantes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cursando__Estudi__35BCFE0A" Association="MatriculacionModel.FK__Cursando__Estudi__35BCFE0A">
+            <End Role="Estudiante" EntitySet="Estudiantes" />
+            <End Role="Cursando" EntitySet="Cursandoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Imparte__Profeso__33D4B598" Association="MatriculacionModel.FK__Imparte__Profeso__33D4B598">
+            <End Role="Profesor" EntitySet="Profesors" />
+            <End Role="Imparte" EntitySet="Impartes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Estudiante">
+          <Key>
+            <PropertyRef Name="EstudianteId" />
+          </Key>
+          <Property Name="EstudianteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CuatrimestreId" Type="Int32" />
+          <Property Name="CarreraId" Type="Int32" />
+          <Property Name="Matricula" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cedula" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Direccion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Contrasena" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ContrasenaC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Carrera" Relationship="MatriculacionModel.FK__Estudiant__Carre__32E0915F" FromRole="Estudiante" ToRole="Carrera" />
+          <NavigationProperty Name="Cuatrimestre" Relationship="MatriculacionModel.FK__Estudiant__Cuatr__31EC6D26" FromRole="Estudiante" ToRole="Cuatrimestre" />
+          <NavigationProperty Name="Cursandoes" Relationship="MatriculacionModel.FK__Cursando__Estudi__35BCFE0A" FromRole="Estudiante" ToRole="Cursando" />
+        </EntityType>
+        <EntityType Name="Profesor">
+          <Key>
+            <PropertyRef Name="ProfesorId" />
+          </Key>
+          <Property Name="ProfesorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Cedula" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Direccion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Impartes" Relationship="MatriculacionModel.FK__Imparte__Profeso__33D4B598" FromRole="Profesor" ToRole="Imparte" />
+        </EntityType>
+        <Association Name="FK__Estudiant__Carre__32E0915F">
+          <End Type="MatriculacionModel.Carrera" Role="Carrera" Multiplicity="0..1" />
+          <End Type="MatriculacionModel.Estudiante" Role="Estudiante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Carrera">
+              <PropertyRef Name="CarreraId" />
+            </Principal>
+            <Dependent Role="Estudiante">
+              <PropertyRef Name="CarreraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Estudiant__Cuatr__31EC6D26">
+          <End Type="MatriculacionModel.Cuatrimestre" Role="Cuatrimestre" Multiplicity="0..1" />
+          <End Type="MatriculacionModel.Estudiante" Role="Estudiante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cuatrimestre">
+              <PropertyRef Name="CuatrimestreId" />
+            </Principal>
+            <Dependent Role="Estudiante">
+              <PropertyRef Name="CuatrimestreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cursando__Estudi__35BCFE0A">
+          <End Type="MatriculacionModel.Estudiante" Role="Estudiante" Multiplicity="0..1" />
+          <End Type="MatriculacionModel.Cursando" Role="Cursando" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="EstudianteId" />
+            </Principal>
+            <Dependent Role="Cursando">
+              <PropertyRef Name="EstudianteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Imparte__Profeso__33D4B598">
+          <End Type="MatriculacionModel.Profesor" Role="Profesor" Multiplicity="0..1" />
+          <End Type="MatriculacionModel.Imparte" Role="Imparte" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profesor">
+              <PropertyRef Name="ProfesorId" />
+            </Principal>
+            <Dependent Role="Imparte">
+              <PropertyRef Name="ProfesorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MatriculacionModelStoreContainer" CdmEntityContainer="MatriculacionEntities">
+          <EntitySetMapping Name="Carreras">
+            <EntityTypeMapping TypeName="MatriculacionModel.Carrera">
+              <MappingFragment StoreEntitySet="Carrera">
+                <ScalarProperty Name="CarreraId" ColumnName="CarreraId" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cuatrimestres">
+            <EntityTypeMapping TypeName="MatriculacionModel.Cuatrimestre">
+              <MappingFragment StoreEntitySet="Cuatrimestre">
+                <ScalarProperty Name="CuatrimestreId" ColumnName="CuatrimestreId" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cursandoes">
+            <EntityTypeMapping TypeName="MatriculacionModel.Cursando">
+              <MappingFragment StoreEntitySet="Cursando">
+                <ScalarProperty Name="CursandoId" ColumnName="CursandoId" />
+                <ScalarProperty Name="EstudianteId" ColumnName="EstudianteId" />
+                <ScalarProperty Name="MateriaId" ColumnName="MateriaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Impartes">
+            <EntityTypeMapping TypeName="MatriculacionModel.Imparte">
+              <MappingFragment StoreEntitySet="Imparte">
+                <ScalarProperty Name="ImparteId" ColumnName="ImparteId" />
+                <ScalarProperty Name="ProfesorId" ColumnName="ProfesorId" />
+                <ScalarProperty Name="MateriaId" ColumnName="MateriaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Materias">
+            <EntityTypeMapping TypeName="MatriculacionModel.Materia">
+              <MappingFragment StoreEntitySet="Materia">
+                <ScalarProperty Name="MateriaId" ColumnName="MateriaId" />
+                <ScalarProperty Name="CarreraId" ColumnName="CarreraId" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="MatriculacionModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+                <ScalarProperty Name="ContrasenaC" ColumnName="ContrasenaC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estudiantes">
+            <EntityTypeMapping TypeName="MatriculacionModel.Estudiante">
+              <MappingFragment StoreEntitySet="Estudiante">
+                <ScalarProperty Name="ContrasenaC" ColumnName="ContrasenaC" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="CarreraId" ColumnName="CarreraId" />
+                <ScalarProperty Name="CuatrimestreId" ColumnName="CuatrimestreId" />
+                <ScalarProperty Name="EstudianteId" ColumnName="EstudianteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Profesors">
+            <EntityTypeMapping TypeName="MatriculacionModel.Profesor">
+              <MappingFragment StoreEntitySet="Profesor">
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ProfesorId" ColumnName="ProfesorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

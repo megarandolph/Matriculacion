@@ -1,0 +1,261 @@
+﻿@model IEnumerable<Matriculacion.Models.Cursando>
+
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg">
+    Agregar materias
+</button>
+
+<table id="example1" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                Materia
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Materia.Codigo)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Materia.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Materia.Codigo)
+                </td>
+
+                <td>
+                    <a class="btn btn-default detalle" data-toggle="modal" data-target="#modal-xl" title="Detalles de la materia" MateriaId="@item.MateriaId"><i class="fas fa-list"></i></a>
+                    <a class="btn btn-default Delete" CursandoId="@item.CursandoId" title="Eliminar" href="#"><i class="fas fa-trash"></i></a>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.CursandoId }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.CursandoId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.CursandoId })*@
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+
+</table>
+
+<div class="modal fade" id="modal-xl">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Detalles de la materia</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body row" id="DetalleModal">
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-lg">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Seleccion de Materias</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <select class="form-control select2" id="MateriaId" name="MateriaId" style="width:100%">
+                    <option value="" selected="selected">SELECCIONE</option>
+                </select>
+                <br />
+                <div class="row" id="ContenidoMateria">
+
+                </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary SelectMateria" >Seleccionar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+
+            $.fn.clearSelect = function () {
+                return this.each(function () {
+                    if (this.tagName == 'SELECT')
+                        this.options.length = 0;
+                });
+            }
+            $.fn.fillSelect = function (data) {
+                return this.clearSelect().each(function () {
+                    if (this.tagName == 'SELECT') {
+                        var dropdownList = this;
+                        //Add default Value
+                        var option = new Option("SELECCIONE", "");
+                        dropdownList.add(option);
+
+                        $.each(data, function (index, optionData) {
+                            option = new Option(optionData.Text, optionData.Value);
+                            dropdownList.add(option);
+                        });
+                    }
+                });
+            }
+
+            $(function () {
+                $.getJSON("@Url.Action("GetMaterias", "Cursando")", null, function (data) {
+                    $("#MateriaId").fillSelect(data);
+                }).then(() => {
+                    $('.select2').select2();
+                });
+            });
+
+            $("#MateriaId").change(function () {
+                var MateriaId = $(this).val();
+
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("MateriaDetalles", "Cursando")",
+                    data: { id: MateriaId },
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+                        $('#ContenidoMateria').empty();
+                        $('#ContenidoMateria').append(`
+                            <div class="col-lg-6">
+                                <label>Materia:</label> ${data[0].Descripcion}
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Codigo:</label> ${data[0].Codigo}
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Creditos:</label> ${data[0].Creditos}
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Profesor:</label> ${data[0].Imparte[0].Profesor[0].Nombre} ${data[0].Imparte[0].Profesor[0].Apellido}
+                            </div>
+                        `);
+                    }
+                })
+            })
+
+            $(".SelectMateria").click(function () {
+
+                var MateriaId = $("#MateriaId").val();
+                $(".SelectMateria").prop('disabled', true);
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("Crear", "Cursando")",
+                    data: { id: MateriaId },
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == "Ok") {
+                            $(function () {
+                                var Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000
+                                });
+
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'Materia agregada exitosamente.',                                   
+                                }).then(function () {
+                                    location.reload();
+                                });
+                            })
+                        }
+                    }
+                })
+            })
+
+            $(".Delete").click(function () {
+
+                var CursandoId = $(this).attr('CursandoId');
+                $(this).prop('disabled', true);
+
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("Eliminar", "Cursando")",
+                    data: { id: CursandoId },
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+                    if (data == "OK") {
+                        $(function () {
+                            var Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Materia eliminada exitosamente.',                              
+                            }).then(function () {
+                                location.reload();
+                            });
+                        })
+                        }
+                    }
+                })
+            })
+
+            $(".detalle").click(function () {
+                var MateriaId = $(this).attr('MateriaId');
+
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("MateriaDetalles", "Cursando")",
+                    data: { id: MateriaId },
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+                        $('#DetalleModal').empty();
+                        $('#DetalleModal').append(`
+                            <div class="col-lg-6">
+                                <label>Materia:</label> ${data[0].Descripcion}
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Codigo:</label> ${data[0].Codigo}
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Creditos:</label> ${data[0].Creditos}
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Profesor:</label> ${data[0].Imparte[0].Profesor[0].Nombre} ${data[0].Imparte[0].Profesor[0].Apellido}
+                            </div>
+                        `);
+                    }
+                })
+
+            })
+        })
+    </script>
+}
